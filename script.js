@@ -1,7 +1,19 @@
 var skillNames = [
-  "Shadow Strike", "Dragon Fury", "Storm Bolt", "Arcane Surge", "Venomous Bite",
-  "Holy Smite", "Inferno Blaze", "Frost Nova", "Earthquake", "Divine Shield",
-  "Thunderstorm", "Rapid Shot", "Crippling Blow", "Soul Drain", "Whirlwind Slash"
+  "Shadow Strike",
+  "Dragon Fury",
+  "Storm Bolt",
+  "Arcane Surge",
+  "Venomous Bite",
+  "Holy Smite",
+  "Inferno Blaze",
+  "Frost Nova",
+  "Earthquake",
+  "Divine Shield",
+  "Thunderstorm",
+  "Rapid Shot",
+  "Crippling Blow",
+  "Soul Drain",
+  "Whirlwind Slash"
 ];
 var skills = [];
 var currency = 0;
@@ -9,13 +21,18 @@ var unlockedSkills = [];
 
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
-    skills.push({ name: skillNames[i], level: (i === 0) ? 0 : -1, exp: 0 });
+    skills.push({
+      name: skillNames[i],
+      level: (i === 0) ? 0 : -1,
+      exp: 0
+    });
   }
 }
 
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   skill.exp += 10;
+
   if (skill.exp >= 100) {
     skill.exp = 0;
     skill.level++;
@@ -23,6 +40,7 @@ function trainSkill(skillIndex) {
     document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
     unlockSkills();
   }
+
   updateSkill(skillIndex);
 }
 
@@ -38,11 +56,11 @@ function updateSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
   var skillLevelElement = document.getElementById('skill' + skillIndex + '-level');
   var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
-  var skillProgressBar = document.getElementById('skill' + skillIndex + '-progress');
+  var progressBarElement = document.getElementById('skill' + skillIndex + '-progress');
 
   skillLevelElement.textContent = skill.level === 0 ? "N/A" : skill.level;
   skillExpElement.textContent = skill.exp;
-  skillProgressBar.style.width = skill.exp + "%";
+  progressBarElement.style.width = skill.exp + "%";
 }
 
 function buyAutoTrain() {
@@ -80,6 +98,7 @@ function saveGame() {
 
 function loadGame() {
   var savedData = localStorage.getItem('skillQuestSaveData');
+
   if (savedData) {
     var saveData = JSON.parse(savedData);
     skills = saveData.skills;
@@ -114,8 +133,10 @@ function enterGame() {
 
 window.onload = function() {
   var savedData = localStorage.getItem('skillQuestSaveData');
+
   if (savedData) {
     var confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
+
     if (confirmLoad) {
       loadGame();
       enterGame();
@@ -127,4 +148,3 @@ window.onload = function() {
     enterGame();
   }
 };
-
