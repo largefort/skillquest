@@ -86,33 +86,23 @@ function disableAutoTrain() {
   clearInterval(trainingInterval);
 }
 
-function exportSave() {
+function exportGame() {
   var saveData = {
     skills: skills,
     currency: currency
   };
 
   var saveDataString = JSON.stringify(saveData);
+  
+  var exportScreen = document.getElementById('export-screen');
+  var saveDataText = document.getElementById('save-data-text');
+  saveDataText.textContent = saveDataString;
+  exportScreen.style.display = 'block';
+}
 
-  if (navigator.share) {
-    navigator.share({
-      title: 'Skill Quest Save',
-      text: 'Check out my Skill Quest game progress!',
-      url: 'data:text/plain;charset=utf-8,' + encodeURIComponent(saveDataString)
-    })
-      .then(() => {
-        console.log('Save data shared successfully!');
-      })
-      .catch((error) => {
-        console.error('Error sharing save data:', error);
-      });
-  } else {
-    // Create a download link for the save data
-    var downloadLink = document.createElement('a');
-    downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(saveDataString);
-    downloadLink.download = 'skillQuestSave.json';
-    downloadLink.click();
-  }
+function closeExportScreen() {
+  var exportScreen = document.getElementById('export-screen');
+  exportScreen.style.display = 'none';
 }
 
 function importSave() {
