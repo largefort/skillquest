@@ -43,7 +43,7 @@
     }
 
     .skill img {
-      margin-right: 9px;
+      margin-right: 10px;
     }
 
     h2 {
@@ -108,22 +108,10 @@
       <button onclick="buyAutoTrain()">Buy Auto-Train</button>
     </div>
     <div id="save-load-container">
-      <input type="file" id="load-save-input" accept=".json" style="display: none;">
-      <button onclick="exportSave()">Export Save</button>
-      <button onclick="document.getElementById('load-save-input').click()">Load Save</button>
-    </div>
-  </div>
-  <div id="export-screen" style="display: none;">
-    <div class="box-container">
-      <textarea id="save-data-text" rows="10" readonly></textarea>
-      <button onclick="closeExportScreen()">Close</button>
+      <button onclick="saveGame()">Save Game</button>
+      <button onclick="loadGame()">Load Game</button>
     </div>
   </div>
   <script src="script.js"></script>
-  <script>
-    document.getElementById('load-save-input').addEventListener('change', function(event) {
-      loadSave(event);
-    });
-  </script>
 </body>
 </html>
