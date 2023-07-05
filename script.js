@@ -93,43 +93,24 @@ function exportGame() {
   };
 
   var saveDataString = JSON.stringify(saveData);
-  
+
   var exportScreen = document.getElementById('export-screen');
   var saveDataText = document.getElementById('save-data-text');
   saveDataText.textContent = saveDataString;
   exportScreen.style.display = 'block';
 }
 
-function closeExportScreen() {
-  var exportScreen = document.getElementById('export-screen');
-  exportScreen.style.display = 'none';
-}
+function loadExportedSave() {
+  var importedDataString = document.getElementById('save-data-text').value;
+  var importedData = JSON.parse(importedDataString);
 
-function importSave() {
-  var fileInput = document.createElement('input');
-  fileInput.type = 'file';
+  skills = importedData.skills;
+  currency = importedData.currency;
+  updateAllSkills();
+  document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+  unlockSkills();
 
-  fileInput.onchange = function(event) {
-    var file = event.target.files[0];
-    var reader = new FileReader();
-
-    reader.onload = function() {
-      var importedDataString = reader.result;
-      var importedData = JSON.parse(importedDataString);
-
-      skills = importedData.skills;
-      currency = importedData.currency;
-      updateAllSkills();
-      document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
-      unlockSkills();
-
-      alert('Save data imported successfully!');
-    };
-
-    reader.readAsText(file);
-  };
-
-  fileInput.click();
+  alert('Save data imported successfully!');
 }
 
 function updateAllSkills() {
