@@ -32,8 +32,38 @@ function initSkills() {
 
 function trainSkill(skillIndex) {
   var skill = skills[skillIndex - 1];
-  skill.exp += 10;
+  var skillExpElement = document.getElementById('skill' + skillIndex + '-exp');
 
+  // Calculate the starting and ending values for the animation
+  var startExp = skill.exp;
+  var endExp = skill.exp + 10;
+
+  // Set the duration and interval for the animation (in milliseconds)
+  var duration = 1000;
+  var interval = 10;
+
+  // Calculate the increment value for each interval
+  var increment = (endExp - startExp) / (duration / interval);
+
+  // Start the animation
+  var currentExp = startExp;
+  var animationInterval = setInterval(function() {
+    // Update the exp value
+    currentExp += increment;
+
+    // Check if the animation has reached or passed the end value
+    if (currentExp >= endExp) {
+      skill.exp = Math.floor(endExp);
+      clearInterval(animationInterval);
+      unlockSkills();
+    } else {
+      skill.exp = Math.floor(currentExp);
+    }
+
+    // Update the skill exp element
+    skillExpElement.textContent = skill.exp;
+  }, interval);
+  
   if (skill.exp >= 100) {
     skill.exp = 0;
     skill.level++;
@@ -92,26 +122,20 @@ function saveGame() {
     currency: currency
   };
 
-  var saveDataString = JSON.stringify(saveData);
-
-  // Save the data to the browser's localStorage
-  localStorage.setItem('skillQuestSaveData', saveDataString);
-
+  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
   alert('Game saved successfully!');
 }
 
 function loadGame() {
-  var savedDataString = localStorage.getItem('skillQuestSaveData');
+  var savedData = localStorage.getItem('skillQuestSaveData');
 
-  if (savedDataString) {
-    var saveData = JSON.parse(savedDataString);
-
+  if (savedData) {
+    var saveData = JSON.parse(savedData);
     skills = saveData.skills;
     currency = saveData.currency;
     updateAllSkills();
     document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
     unlockSkills();
-
     alert('Game loaded successfully!');
   } else {
     alert('No saved game data found!');
@@ -138,9 +162,9 @@ function enterGame() {
 }
 
 window.onload = function() {
-  var savedDataString = localStorage.getItem('skillQuestSaveData');
+  var savedData = localStorage.getItem('skillQuestSaveData');
 
-  if (savedDataString) {
+  if (savedData) {
     var confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
     if (confirmLoad) {
       loadGame();
