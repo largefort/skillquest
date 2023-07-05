@@ -94,10 +94,13 @@ function exportGame() {
 
   var saveDataString = JSON.stringify(saveData);
 
-  var exportScreen = document.getElementById('export-screen');
-  var saveDataText = document.getElementById('save-data-text');
-  saveDataText.textContent = saveDataString;
-  exportScreen.style.display = 'block';
+  var a = document.createElement('a');
+  var file = new Blob([saveDataString], {type: 'application/json'});
+  a.href = URL.createObjectURL(file);
+  a.download = 'savedata.skillquestsav';
+  a.click();
+
+  URL.revokeObjectURL(a.href);
 }
 
 function loadExportedSave() {
