@@ -94,11 +94,25 @@ function exportSave() {
 
   var saveDataString = JSON.stringify(saveData);
 
-  // Create a download link for the save data
-  var downloadLink = document.createElement('a');
-  downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(saveDataString);
-  downloadLink.download = 'skillQuestSave.json';
-  downloadLink.click();
+  if (navigator.share) {
+    navigator.share({
+      title: 'Skill Quest Save',
+      text: 'Check out my Skill Quest game progress!',
+      url: 'data:text/plain;charset=utf-8,' + encodeURIComponent(saveDataString)
+    })
+      .then(() => {
+        console.log('Save data shared successfully!');
+      })
+      .catch((error) => {
+        console.error('Error sharing save data:', error);
+      });
+  } else {
+    // Create a download link for the save data
+    var downloadLink = document.createElement('a');
+    downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(saveDataString);
+    downloadLink.download = 'skillQuestSave.json';
+    downloadLink.click();
+  }
 }
 
 function importSave() {
