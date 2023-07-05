@@ -92,20 +92,26 @@ function saveGame() {
     currency: currency
   };
 
-  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
+  var saveDataString = JSON.stringify(saveData);
+
+  // Save the data to the browser's localStorage
+  localStorage.setItem('skillQuestSaveData', saveDataString);
+
   alert('Game saved successfully!');
 }
 
 function loadGame() {
-  var savedData = localStorage.getItem('skillQuestSaveData');
+  var savedDataString = localStorage.getItem('skillQuestSaveData');
 
-  if (savedData) {
-    var saveData = JSON.parse(savedData);
+  if (savedDataString) {
+    var saveData = JSON.parse(savedDataString);
+
     skills = saveData.skills;
     currency = saveData.currency;
     updateAllSkills();
     document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
     unlockSkills();
+
     alert('Game loaded successfully!');
   } else {
     alert('No saved game data found!');
@@ -132,9 +138,9 @@ function enterGame() {
 }
 
 window.onload = function() {
-  var savedData = localStorage.getItem('skillQuestSaveData');
+  var savedDataString = localStorage.getItem('skillQuestSaveData');
 
-  if (savedData) {
+  if (savedDataString) {
     var confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
     if (confirmLoad) {
       loadGame();
