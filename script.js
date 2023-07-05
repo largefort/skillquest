@@ -17,7 +17,7 @@ var skillNames = [
 ];
 
 var skills = [];
-var currency = 0;
+var currency = 100;
 var unlockedSkills = [];
 
 function initSkills() {
