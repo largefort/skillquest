@@ -40,6 +40,7 @@ function trainSkill(skillIndex) {
     currency += 10;
     document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
     unlockSkills();
+    syncSkillLevels();
   }
 
   updateSkill(skillIndex);
@@ -50,6 +51,14 @@ function unlockSkills() {
     if (skills[0].level >= 100) {
       unlockedSkills.push(i + 1);
     }
+  }
+}
+
+function syncSkillLevels() {
+  var mainSkillLevel = skills[0].level;
+
+  for (var i = 1; i < skills.length; i++) {
+    skills[i].level = mainSkillLevel;
   }
 }
 
@@ -118,8 +127,9 @@ function updateAllSkills() {
   }
 }
 
-function initGame() {
+function initGame(){
   initSkills();
+  syncSkillLevels();
   updateAllSkills();
   document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
   unlockSkills();
