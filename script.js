@@ -145,7 +145,7 @@ function enterGame() {
 
 function convertToMedievalNotation(number) {
   if (number < 1 || number > 10) {
-    return number.toLocaleString(undefined, { notation: 'compact' });
+    return number.toLocaleString(undefined, { notation: 'medieval});
   }
 
   return currencySymbols[number];
