@@ -1,3 +1,5 @@
+var currencySymbols = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
 var skillNames = [
   "Shadow Strike",
   "Dragon Fury",
@@ -38,7 +40,7 @@ function trainSkill(skillIndex) {
     skill.exp = 0;
     skill.level++;
     currency += 10;
-    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+    document.getElementById('currency').textContent = convertToMedievalNotation(currency);
     unlockSkills();
     syncSkillLevels();
   }
@@ -74,7 +76,7 @@ function updateSkill(skillIndex) {
 function buyAutoTrain() {
   if (currency >= 100) {
     currency -= 100;
-    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+    document.getElementById('currency').textContent = convertToMedievalNotation(currency);
     enableAutoTrain();
     alert('Auto-Train feature purchased successfully!');
   } else {
@@ -113,7 +115,7 @@ function loadGame() {
     skills = saveData.skills;
     currency = saveData.currency;
     updateAllSkills();
-    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+    document.getElementById('currency').textContent = convertToMedievalNotation(currency);
     unlockSkills();
     alert('Game loaded successfully!');
   } else {
@@ -127,11 +129,11 @@ function updateAllSkills() {
   }
 }
 
-function initGame(){
+function initGame() {
   initSkills();
   syncSkillLevels();
   updateAllSkills();
-  document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+  document.getElementById('currency').textContent = convertToMedievalNotation(currency);
   unlockSkills();
 }
 
@@ -139,6 +141,14 @@ function enterGame() {
   document.getElementById('changelog-container').style.display = 'none';
   document.getElementById('game-container').style.display = 'block';
   initGame();
+}
+
+function convertToMedievalNotation(number) {
+  if (number < 1 || number > 10) {
+    return number.toLocaleString(undefined, { notation: 'compact' });
+  }
+
+  return currencySymbols[number];
 }
 
 window.onload = function() {
