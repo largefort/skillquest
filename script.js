@@ -24,6 +24,7 @@ function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
     skills.push({
       name: skillNames[i],
+      description: "", // Feature 1: Skill Description Display
       level: (i === 0) ? 0 : -1,
       exp: 0
     });
@@ -44,6 +45,7 @@ function trainSkill(skillIndex) {
   }
 
   updateSkill(skillIndex);
+  updateSkillProgressBar(skillIndex, (skill.exp / 100) * 100);
 }
 
 function unlockSkills() {
@@ -71,68 +73,91 @@ function updateSkill(skillIndex) {
   skillExpElement.textContent = skill.exp;
 }
 
-function buyAutoTrain() {
-  if (currency >= 100) {
-    currency -= 100;
+function updateSkillProgressBar(skillIndex, progress) {
+  var progressBar = document.getElementById('skill' + skillIndex + '-progress');
+  progressBar.style.width = `${progress}%`;
+}
+
+function updateSkillDescription(skillIndex, description) {
+  var descriptionElement = document.querySelector(`#skill${skillIndex} .description`);
+  descriptionElement.textContent = description;
+}
+
+function upgradeSkill(skillIndex) {
+  var skill = skills[skillIndex - 1];
+  if (currency >= (skill.level + 1) * 100) {
+    currency -= (skill.level + 1) * 100;
+    skill.level++;
     document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
-    enableAutoTrain();
-    alert('Auto-Train feature purchased successfully!');
+    updateSkill(skillIndex);
   } else {
-    alert('Not enough coins to purchase Auto-Train feature!');
+    alert('Not enough coins to upgrade this skill!');
   }
 }
 
-var trainingInterval;
+var skillPoints = 0;
 
-function enableAutoTrain() {
-  trainingInterval = setInterval(function() {
-    trainSkill(1);
-    trainSkill(2);
-  }, 100);
-}
-
-function disableAutoTrain() {
-  clearInterval(trainingInterval);
-}
-
-function saveGame() {
-  var saveData = {
-    skills: skills,
-    currency: currency
-  };
-
-  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
-  alert('Game saved successfully!');
-}
-
-function loadGame() {
-  var savedData = localStorage.getItem('skillQuestSaveData');
-
-  if (savedData) {
-    var saveData = JSON.parse(savedData);
-    skills = saveData.skills;
-    currency = saveData.currency;
-    updateAllSkills();
-    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
-    unlockSkills();
-    alert('Game loaded successfully!');
-  } else {
-    alert('No saved game data found!');
+function allocateSkillPoint(skillIndex) {
+  if (skillPoints > 0) {
+    var skill = skills[skillIndex - 1];
+    skill.level++;
+    skillPoints--;
+    updateSkill(skillIndex);
+    document.getElementById('skill-points').textContent = skillPoints;
   }
 }
 
-function updateAllSkills() {
-  for (var i = 1; i <= skills.length; i++) {
-    updateSkill(i);
+var leaderboardData = [];
+
+function updateLeaderboard() {
+  var leaderboardElement = document.getElementById('leaderboard');
+  leaderboardElement.innerHTML = '';
+
+  leaderboardData.sort((a, b) => b.level - a.level);
+
+  for (var i = 0; i < leaderboardData.length; i++) {
+    var entry = leaderboardData[i];
+    var li = document.createElement('li');
+    li.textContent = `Player ${entry.player}: Level ${entry.level}`;
+    leaderboardElement.appendChild(li);
   }
 }
 
-function initGame(){
+function addToLeaderboard(playerName, playerLevel) {
+  leaderboardData.push({ player: playerName, level: playerLevel });
+  updateLeaderboard();
+}
+
+function prestige() {
+  var totalSkillLevels = skills.reduce((total, skill) => total + skill.level, 0);
+  var prestigeBonuses = totalSkillLevels * 10;
+
+  currency += prestigeBonuses;
+  skillPoints += totalSkillLevels;
+
+  skills.forEach((skill) => {
+    skill.level = 0;
+    skill.exp = 0;
+  });
+
+  updateAllSkills();
+  document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+  document.getElementById('skill-points').textContent = skillPoints;
+}
+
+function playSoundEffect(soundUrl) {
+  var audio = new Audio(soundUrl);
+  audio.play();
+}
+
+function initGame() {
   initSkills();
   syncSkillLevels();
   updateAllSkills();
   document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
   unlockSkills();
+  updateSkillDescription(1, "A quick and powerful strike that deals shadow damage."); // Feature 1: Skill Description Display
+  updateSkillDescription(2, "Master the power of the earth and bend it to your will.");
 }
 
 function enterGame() {
