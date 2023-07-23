@@ -19,12 +19,14 @@ var skillNames = [
 var skills = [];
 var currency = 100;
 var unlockedSkills = [];
+var skillPoints = 0;
+var leaderboardData = [];
 
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
     skills.push({
       name: skillNames[i],
-      description: "", // Feature 1: Skill Description Display
+      description: "",
       level: (i === 0) ? 0 : -1,
       exp: 0
     });
@@ -95,8 +97,6 @@ function upgradeSkill(skillIndex) {
   }
 }
 
-var skillPoints = 0;
-
 function allocateSkillPoint(skillIndex) {
   if (skillPoints > 0) {
     var skill = skills[skillIndex - 1];
@@ -106,8 +106,6 @@ function allocateSkillPoint(skillIndex) {
     document.getElementById('skill-points').textContent = skillPoints;
   }
 }
-
-var leaderboardData = [];
 
 function updateLeaderboard() {
   var leaderboardElement = document.getElementById('leaderboard');
@@ -150,14 +148,75 @@ function playSoundEffect(soundUrl) {
   audio.play();
 }
 
+function buyAutoTrain() {
+  if (currency >= 100) {
+    currency -= 100;
+    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+    enableAutoTrain();
+    alert('Auto-Train feature purchased successfully!');
+  } else {
+    alert('Not enough coins to purchase Auto-Train feature!');
+  }
+}
+
+var trainingInterval;
+
+function enableAutoTrain() {
+  trainingInterval = setInterval(function() {
+    trainSkill(1);
+    trainSkill(2);
+  }, 100);
+}
+
+function disableAutoTrain() {
+  clearInterval(trainingInterval);
+}
+
+function saveGame() {
+  var saveData = {
+    skills: skills,
+    currency: currency,
+    skillPoints: skillPoints,
+    leaderboardData: leaderboardData
+  };
+
+  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
+  alert('Game saved successfully!');
+}
+
+function loadGame() {
+  var savedData = localStorage.getItem('skillQuestSaveData');
+
+  if (savedData) {
+    var saveData = JSON.parse(savedData);
+    skills = saveData.skills;
+    currency = saveData.currency;
+    skillPoints = saveData.skillPoints;
+    leaderboardData = saveData.leaderboardData;
+    updateAllSkills();
+    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+    document.getElementById('skill-points').textContent = skillPoints;
+    unlockSkills();
+    alert('Game loaded successfully!');
+  } else {
+    alert('No saved game data found!');
+  }
+}
+
+function updateAllSkills() {
+  for (var i = 1; i <= skills.length; i++) {
+    updateSkill(i);
+    updateSkillProgressBar(i, (skills[i - 1].exp / 100) * 100);
+  }
+}
+
 function initGame() {
   initSkills();
   syncSkillLevels();
   updateAllSkills();
   document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+  document.getElementById('skill-points').textContent = skillPoints;
   unlockSkills();
-  updateSkillDescription(1, "A quick and powerful strike that deals shadow damage."); // Feature 1: Skill Description Display
-  updateSkillDescription(2, "Master the power of the earth and bend it to your will.");
 }
 
 function enterGame() {
@@ -181,4 +240,38 @@ window.onload = function() {
   } else {
     enterGame();
   }
+
+  // Event Handlers for New Features
+
+  // Feature: Upgrade Skill Button Click
+  document.getElementById('skill1-upgrade-btn').addEventListener('click', function() {
+    upgradeSkill(1);
+  });
+
+  document.getElementById('skill2-upgrade-btn').addEventListener('click', function() {
+    upgradeSkill(2);
+  });
+
+  // Feature: Allocate Skill Point Button Click
+  document.getElementById('skill1-allocate-btn').addEventListener('click', function() {
+    allocateSkillPoint(1);
+  });
+
+  // Feature: Leaderboard Entry
+  document.getElementById('leaderboard-entry-btn').addEventListener('click', function() {
+    var playerName = prompt('Enter your name:');
+    if (playerName) {
+      addToLeaderboard(playerName, skills[0].level);
+    }
+  });
+
+  // Feature: Prestige Button Click
+  document.getElementById('prestige-btn').addEventListener('click', function() {
+    prestige();
+  });
+
+  // Feature: Sound Effect Button Click
+  document.getElementById('sound-effect-btn').addEventListener('click', function() {
+    playSoundEffect('path/to/sound_effect.mp3');
+  });
 };
