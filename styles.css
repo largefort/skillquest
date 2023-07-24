@@ -1,78 +1,134 @@
 body {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  background-color: #0d0c1d;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
+  font-family: Arial, sans-serif;
   margin: 0;
-  cursor: url(cursor.cur), auto;
+  padding: 0;
+  background-color: #f7f7f7;
 }
 
-@keyframes rainbow {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
+.container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  font-size: 36px;
-  margin-top: 30px;
+  text-align: center;
   margin-bottom: 20px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
 }
 
-#skills-container {
+.skills {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 40px;
+  justify-content: space-between;
 }
 
 .skill {
-  border: 2px solid #7366ff;
-  border-radius: 10px;
+  width: 32%;
   padding: 10px;
-  margin: 10px;
-  width: 200px;
-  background-color: #29264e;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s;
-}
-
-.skill:hover {
-  transform: scale(1.05);
-}
-
-h2 {
-  font-size: 18px;
-  margin-top: 0;
-}
-
-p {
-  margin: 10px 0;
-  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 button {
-  background-color: #7366ff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
   margin-top: 10px;
   cursor: pointer;
+}
+
+.stats {
+  margin-top: 30px;
+}
+
+.upgrades {
+  margin-top: 30px;
+}
+
+.upgrade {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.reset-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.progress-bar {
+  background-color: #eee;
+  height: 10px;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  overflow: hidden;
+  transition: width 0.3s ease;
 }
 
-button:hover {
-  background-color: #4d3cc9;
+/* Add animation styles for the progress bar */
+.animate {
+  animation: progressAnimation 0.3s;
 }
 
-/* Apply rainbow animation to the custom cursor */
-body {
-  animation: rainbow 3s linear infinite;
+@keyframes progressAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
+
+/* Add styles for the particle effect */
+.particle {
+  position: absolute;
+  background-color: #ffcc00;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Add styles for the player stats */
+.stats {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.stats p {
+  margin-bottom: 5px;
+}
+
+.stats span {
+  font-weight: bold;
+}
+
+/* Add styles for the upgrades section */
+.upgrades {
+  margin-top: 30px;
+}
+
+.upgrade button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.upgrade button:hover {
+  background-color: #45a049;
+}
+
+/* ... (existing code) ... */
