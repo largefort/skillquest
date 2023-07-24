@@ -1,169 +1,46 @@
 <!DOCTYPE html>
-<html lang="is">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skill Quest</title>
+  <title>Idle Skill Training Game</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    @keyframes rainbow {
-      0% { color: red; }
-      14% { color: orange; }
-      28% { color: yellow; }
-      42% { color: green; }
-      57% { color: blue; }
-      71% { color: indigo; }
-      85% { color: violet; }
-      100% { color: red; }
-    }
-
-    h1 {
-      animation: rainbow 3s linear infinite;
-      font-size: 32px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-
-    .skill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 80%;
-      max-width: 300px;
-      margin: 20px auto;
-      padding: 10px;
-      border-radius: 10px;
-      background-color: #29264e;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s;
-    }
-
-    .skill:hover {
-      transform: scale(1.05);
-    }
-
-    .skill img {
-      margin-right: 10px;
-    }
-
-    h2 {
-      font-size: 20px;
-      margin-top: 0;
-    }
-
-    p {
-      font-size: 16px;
-      margin: 5px 0;
-    }
-
-    button {
-      font-size: 16px;
-      padding: 10px 20px;
-    }
-
-    #currency-container {
-      margin-top: 30px;
-    }
-
-    #save-load-container {
-      margin-top: 20px;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 10px;
-      background-color: #555;
-      border-radius: 5px;
-      margin-top: 5px;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      border-radius: 5px;
-      background-color: #0f0;
-    }
-
-    #leaderboard-container {
-      margin-top: 20px;
-    }
-
-    #leaderboard {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    #leaderboard li {
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-  </style>
 </head>
 <body>
-  <div id="changelog-container">
-    <h1>Change Log</h1>
-    <p>Welcome to Skill Quest version 1.0!</p>
-    <p>Here are some of the exciting new features:</p>
-    <ul>
-      <li>Unlock new skills as you level up your "Shadow Strike" skill to level 100!</li>
-      <li>Purchase the Auto-Train feature to automatically train your skills.</li>
-      <li>Save and load your game progress.</li>
-      <li>Skill Description Display</li>
-      <li>Skill Upgrades</li>
-      <li>Skill Points</li>
-      <li>Leaderboard</li>
-      <li>Prestige System</li>
-      <li>Sound Effects</li>
-    </ul>
-    <button id="play-game-btn" onclick="enterGame()">Play Game</button>
-  </div>
-  <div id="game-container" style="display: none;">
-    <h1>Skill Quest</h1>
-    <div class="skill" id="skill1">
-      <img src="https://raw.githubusercontent.com/largefort/skillquest/main/shadowstrike.png" alt="Shadow Strike">
-      <div>
-        <h2 id="skill1-name">Shadow Strike</h2>
-        <p class="description">A quick and powerful strike that deals shadow damage.</p>
-        <p>Level: <span id="skill1-level">0</span></p>
-        <p>Exp: <span id="skill1-exp">0</span></p>
-        <div class="progress-bar" id="skill1-progress">
-          <div class="progress-bar-fill"></div>
+  <div class="container">
+    <h1>Idle Skill Training Game</h1>
+    <div class="skills">
+      <div class="skill">
+        <span>Clicking Skill</span>
+        <button onclick="trainSkill('clicking')">Train</button>
+        <span id="clickingLevel">Level: 1</span>
+        <div class="progress-bar">
+          <div id="clickingProgress" class="progress"></div>
         </div>
       </div>
-      <button onclick="trainSkill(1)">Train</button>
-      <button onclick="upgradeSkill(1)">Upgrade</button>
-    </div>
-    <div class="skill" id="skill2">
-      <img src="https://raw.githubusercontent.com/largefort/skillquest/main/earthbender.png" alt="Earth Bender">
-      <div>
-        <h2 id="skill2-name">Earth Bender</h2>
-        <p class="description">Master the power of the earth and bend it to your will.</p>
-        <p>Level: <span id="skill2-level">0</span></p>
-        <p>Exp: <span id="skill2-exp">0</span></p>
-        <div class="progress-bar" id="skill2-progress">
-          <div class="progress-bar-fill"></div>
+      <div class="skill">
+        <span>Running Skill</span>
+        <button onclick="trainSkill('running')">Train</button>
+        <span id="runningLevel">Level: 1</span>
+        <div class="progress-bar">
+          <div id="runningProgress" class="progress"></div>
         </div>
       </div>
-      <button onclick="trainSkill(2)">Train</button>
-      <button onclick="upgradeSkill(2)">Upgrade</button>
+      <!-- Add more skills here -->
     </div>
-    <!-- Add more skill divs here for additional skills -->
-
-    <div id="currency-container">
-      <p>Coins: <span id="currency">0</span></p>
-      <p>Skill Points: <span id="skill-points">0</span></p>
-      <button onclick="buyAutoTrain()">Buy Auto-Train</button>
-      <button onclick="allocateSkillPoint(1)">Allocate Skill Point to Skill 1</button>
+    <div class="stats">
+      <h2>Player Stats</h2>
+      <p>Experience Points: <span id="xp">0</span></p>
     </div>
-    <div id="save-load-container">
-      <button onclick="saveGame()">Save Game</button>
-      <button onclick="loadGame()">Load Game</button>
+    <div class="upgrades">
+      <h2>Upgrades</h2>
+      <div class="upgrade">
+        <span>Clicking Speed</span>
+        <button onclick="buyUpgrade('clicking')">Buy (Cost: 100 XP)</button>
+      </div>
+      <!-- Add more upgrades here -->
     </div>
-    <div id="leaderboard-container">
-      <h2>Leaderboard</h2>
-      <ol id="leaderboard">
-        <!-- Leaderboard entries will be dynamically added here -->
-      </ol>
-    </div>
+    <button class="reset-btn" onclick="resetGame()">Reset Game</button>
   </div>
   <script src="script.js"></script>
 </body>
