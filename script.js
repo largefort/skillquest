@@ -131,6 +131,25 @@ function enterGame() {
   initGame();
 }
 
+function showStats() {
+    const statsContainer = document.getElementById('stats-container');
+    const unlockedCount = skills.filter(skill => skill.level > -1).length;
+    const currencyEarned = currency;
+
+    statsContainer.innerHTML = `
+        <p>Total Skills Unlocked: ${unlockedCount}</p>
+        <p>Total Currency Earned: ${currencyEarned.toLocaleString(undefined, { notation: 'compact' })}</p>
+    `;
+
+    document.getElementById('game-container').style.display = 'none';
+    statsContainer.style.display = 'block';
+}
+
+function hideStats() {
+    document.getElementById('stats-container').style.display = 'none';
+    document.getElementById('game-container').style.display = 'block';
+}
+
 window.onload = function() {
   var savedData = localStorage.getItem('skillQuestSaveData');
 
