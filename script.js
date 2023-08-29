@@ -86,34 +86,30 @@ function disableAutoTrain() {
   clearInterval(trainingInterval);
 }
 
-function exportGame() {
+function saveGame() {
   var saveData = {
     skills: skills,
     currency: currency
   };
 
-  var saveDataString = JSON.stringify(saveData);
-
-  var a = document.createElement('a');
-  var file = new Blob([saveDataString], {type: 'application/json'});
-  a.href = URL.createObjectURL(file);
-  a.download = 'savedata.skillquestsav';
-  a.click();
-
-  URL.revokeObjectURL(a.href);
+  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
+  alert('Game saved successfully!');
 }
 
-function loadExportedSave() {
-  var importedDataString = document.getElementById('save-data-text').value;
-  var importedData = JSON.parse(importedDataString);
+function loadGame() {
+  var savedData = localStorage.getItem('skillQuestSaveData');
 
-  skills = importedData.skills;
-  currency = importedData.currency;
-  updateAllSkills();
-  document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
-  unlockSkills();
-
-  alert('Save data imported successfully!');
+  if (savedData) {
+    var saveData = JSON.parse(savedData);
+    skills = saveData.skills;
+    currency = saveData.currency;
+    updateAllSkills();
+    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+    unlockSkills();
+    alert('Game loaded successfully!');
+  } else {
+    alert('No saved game data found!');
+  }
 }
 
 function updateAllSkills() {
@@ -136,9 +132,9 @@ function enterGame() {
 }
 
 window.onload = function() {
-  var savedDataString = localStorage.getItem('skillQuestSaveData');
+  var savedData = localStorage.getItem('skillQuestSaveData');
 
-  if (savedDataString) {
+  if (savedData) {
     var confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
     if (confirmLoad) {
       loadGame();
