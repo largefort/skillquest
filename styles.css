@@ -76,3 +76,13 @@ button:hover {
 body {
   animation: rainbow 3s linear infinite;
 }
+
+/* Type 2: Loosely convert to Visily’s components */
+.page {
+  position: absolute; 
+  top: 0px; 
+  left: 1511px; 
+  width: 390px; 
+  height: 724px; 
+  background: #0D0C1CFF; 
+}
