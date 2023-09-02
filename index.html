@@ -65,6 +65,10 @@
       margin-top: 30px;
     }
 
+    #save-load-container {
+      margin-top: 20px;
+    }
+
     /* Version number styles */
     #version-number {
       position: fixed;
@@ -89,6 +93,7 @@
     <ul>
       <li>Unlock new skills as you level up your "Shadow Strike" skill to level 100!</li>
       <li>Purchase the Auto-Train feature to automatically train your skills.</li>
+      <li>Save and load your game progress.</li>
     </ul>
     <button id="play-game-btn" onclick="enterGame()">Play Game</button>
   </div>
@@ -116,6 +121,10 @@
     <div id="currency-container">
       <p>Coins: <span id="currency">0</span></p>
       <button onclick="buyAutoTrain()">Buy Auto-Train</button>
+    </div>
+    <div id="save-load-container">
+      <button onclick="saveGame()">Save Game</button>
+      <button onclick="loadGame()">Load Game</button>
     </div>
   </div>
   <script src="script.js"></script>
