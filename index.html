@@ -6,36 +6,73 @@
   <title>Skill Quest</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    @keyframes rainbow {
-      0% { color: red; }
-      14% { color: orange; }
-      28% { color: yellow; }
-      42% { color: green; }
-      57% { color: blue; }
-      71% { color: indigo; }
-      85% { color: violet; }
-      100% { color: red; }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    #changelog-container, #game-container {
+      text-align: center;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
-      animation: rainbow 3s linear infinite;
-      font-size: 32px;
-      margin-top: 20px;
-      margin-bottom: 10px;
+      font-size: 36px;
+      color: #29264e;
+      margin-top: 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #29264e;
+      margin-top: 0;
+    }
+
+    p {
+      font-size: 18px;
+      color: #555;
+      margin: 10px 0;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      background-color: #29264e;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #3f3d6d;
+    }
+
+    .skill-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
     }
 
     .skill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 80%;
-      max-width: 300px;
-      margin: 20px auto;
-      padding: 10px;
+      flex: 1;
+      margin: 10px;
+      padding: 20px;
       border-radius: 10px;
       background-color: #29264e;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .skill:hover {
@@ -43,29 +80,20 @@
     }
 
     .skill img {
-      margin-right: 10px;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
     }
 
-    h2 {
-      font-size: 20px;
-      margin-top: 0;
+    .skill h2, .skill p {
+      color: #fff;
     }
 
-    p {
-      font-size: 16px;
-      margin: 5px 0;
-    }
-
-    button {
-      font-size: 16px;
-      padding: 10px 20px;
-    }
-
-    #currency-container {
+    .currency-container {
       margin-top: 30px;
     }
 
-    #save-load-container {
+    .save-load-container {
       margin-top: 20px;
     }
   </style>
@@ -84,30 +112,28 @@
   </div>
   <div id="game-container" style="display: none;">
     <h1>Skill Quest</h1>
-    <div class="skill">
-      <img src="https://raw.githubusercontent.com/largefort/skillquest/main/shadowstrike.png" alt="Shadow Strike">
-      <div>
+    <div class="skill-container">
+      <div class="skill">
+        <img src="https://raw.githubusercontent.com/largefort/skillquest/main/shadowstrike.png" alt="Shadow Strike">
         <h2 id="skill1-name">Shadow Strike</h2>
         <p>Level: <span id="skill1-level">0</span></p>
         <p>Exp: <span id="skill1-exp">0</span></p>
+        <button onclick="trainSkill(1)">Train</button>
       </div>
-      <button onclick="trainSkill(1)">Train</button>
-    </div>
-    <div class="skill">
-      <img src="https://raw.githubusercontent.com/largefort/skillquest/main/earthbender.png" alt="Earth Bender">
-      <div>
+      <div class="skill">
+        <img src="https://raw.githubusercontent.com/largefort/skillquest/main/earthbender.png" alt="Earth Bender">
         <h2 id="skill2-name">Earth Bender</h2>
         <p>Level: <span id="skill2-level">0</span></p>
         <p>Exp: <span id="skill2-exp">0</span></p>
+        <button onclick="trainSkill(2)">Train</button>
       </div>
-      <button onclick="trainSkill(2)">Train</button>
+      <!-- Add more skill divs here for additional skills -->
     </div>
-    <!-- Add more skill divs here for additional skills -->
-    <div id="currency-container">
+    <div class="currency-container">
       <p>Coins: <span id="currency">0</span></p>
       <button onclick="buyAutoTrain()">Buy Auto-Train</button>
     </div>
-    <div id="save-load-container">
+    <div class="save-load-container">
       <button onclick="saveGame()">Save Game</button>
       <button onclick="loadGame()">Load Game</button>
     </div>
