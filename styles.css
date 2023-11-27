@@ -14,10 +14,10 @@ body {
 }
 
 h1 {
-  font-size: 28px; /* Reduced font size for mobile */
-  margin-top: 20px; /* Adjusted margin for mobile */
-  margin-bottom: 15px; /* Adjusted margin for mobile */
-  letter-spacing: 1px; /* Slightly reduced letter spacing */
+  font-size: 36px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
   text-transform: uppercase;
 }
 
@@ -25,7 +25,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .skill {
@@ -33,7 +33,7 @@ h1 {
   border-radius: 10px;
   padding: 10px;
   margin: 10px;
-  width: 100%; /* Full width for mobile */
+  width: 200px;
   background-color: #29264e;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s;
@@ -44,7 +44,7 @@ h1 {
 }
 
 h2 {
-  font-size: 16px; /* Reduced font size for mobile */
+  font-size: 18px;
   margin-top: 0;
 }
 
@@ -75,14 +75,4 @@ button:hover {
 /* Apply rainbow animation to the custom cursor */
 body {
   animation: rainbow 3s linear infinite;
-}
-
-/* Type 2: Loosely convert to Visily’s components */
-.page {
-  position: absolute; 
-  top: 0;
-  left: 0; /* Adjusted left position for mobile */
-  width: 100%; /* Full width for mobile */
-  height: 100vh; /* Full viewport height for mobile */
-  background: #0D0C1CFF; 
 }
