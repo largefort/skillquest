@@ -20,75 +20,6 @@ var skills = [];
 var currency = 0;
 var unlockedSkills = [];
 
-// IndexedDB initialization
-var db;
-
-function initIndexedDB() {
-  var request = indexedDB.open('SkillQuestDB', 1);
-
-  request.onerror = function (event) {
-    console.error("IndexedDB error: " + event.target.errorCode);
-  };
-
-  request.onsuccess = function (event) {
-    db = event.target.result;
-    loadGameFromIndexedDB();
-  };
-
-  request.onupgradeneeded = function (event) {
-    var db = event.target.result;
-    var objectStore = db.createObjectStore('skillQuestStore', { keyPath: 'id' });
-    objectStore.createIndex('skills', 'skills', { unique: false });
-    objectStore.createIndex('currency', 'currency', { unique: false });
-  };
-}
-
-function saveGameToIndexedDB() {
-  var transaction = db.transaction(['skillQuestStore'], 'readwrite');
-  var objectStore = transaction.objectStore('skillQuestStore');
-
-  var saveData = {
-    id: 1,
-    skills: skills,
-    currency: currency
-  };
-
-  var request = objectStore.put(saveData);
-
-  request.onsuccess = function (event) {
-    console.log("Game saved to IndexedDB.");
-  };
-
-  request.onerror = function (event) {
-    console.error("Error saving game to IndexedDB: " + event.target.errorCode);
-  };
-}
-
-function loadGameFromIndexedDB() {
-  var transaction = db.transaction(['skillQuestStore']);
-  var objectStore = transaction.objectStore('skillQuestStore');
-
-  var request = objectStore.get(1);
-
-  request.onsuccess = function (event) {
-    var result = event.target.result;
-    if (result) {
-      skills = result.skills;
-      currency = result.currency;
-      updateAllSkills();
-      document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
-      unlockSkills();
-      console.log("Game loaded from IndexedDB.");
-    } else {
-      console.warn("No saved game data found in IndexedDB.");
-    }
-  };
-
-  request.onerror = function (event) {
-    console.error("Error loading game from IndexedDB: " + event.target.errorCode);
-  };
-}
-
 function initSkills() {
   for (var i = 0; i < skillNames.length; i++) {
     skills.push({
@@ -155,6 +86,32 @@ function disableAutoTrain() {
   clearInterval(trainingInterval);
 }
 
+function saveGame() {
+  var saveData = {
+    skills: skills,
+    currency: currency
+  };
+
+  localStorage.setItem('skillQuestSaveData', JSON.stringify(saveData));
+  alert('Game saved successfully!');
+}
+
+function loadGame() {
+  var savedData = localStorage.getItem('skillQuestSaveData');
+
+  if (savedData) {
+    var saveData = JSON.parse(savedData);
+    skills = saveData.skills;
+    currency = saveData.currency;
+    updateAllSkills();
+    document.getElementById('currency').textContent = currency.toLocaleString(undefined, { notation: 'compact' });
+    unlockSkills();
+    alert('Game loaded successfully!');
+  } else {
+    alert('No saved game data found!');
+  }
+}
+
 function updateAllSkills() {
   for (var i = 1; i <= skills.length; i++) {
     updateSkill(i);
@@ -194,6 +151,18 @@ function hideStats() {
 }
 
 window.onload = function() {
-  initIndexedDB(); // Initialize IndexedDB
-  enterGame();
+  var savedData = localStorage.getItem('skillQuestSaveData');
+
+  if (savedData) {
+    var confirmLoad = confirm('Saved game data found! Do you want to load the saved game?');
+    if (confirmLoad) {
+      loadGame();
+      enterGame();
+    } else {
+      localStorage.removeItem('skillQuestSaveData');
+      enterGame();
+    }
+  } else {
+    enterGame();
+  }
 };
