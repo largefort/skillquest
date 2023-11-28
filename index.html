@@ -15,34 +15,36 @@
 
     #changelog-container, #game-container {
       text-align: center;
-      max-width: 800px;
-      margin: 20px auto;
       background-color: #fff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+      max-width: calc(100% - 40px);
+      overflow: hidden;
+    }
+
+    h1, h2, p {
+      color: #29264e;
+      margin: 10px 0;
     }
 
     h1 {
-      font-size: 36px;
-      color: #29264e;
+      font-size: 24px;
       margin-top: 10px;
     }
 
     h2 {
-      font-size: 24px;
-      color: #29264e;
-      margin-top: 0;
+      font-size: 18px;
     }
 
     p {
-      font-size: 18px;
+      font-size: 16px;
       color: #555;
-      margin: 10px 0;
     }
 
     button {
-      font-size: 18px;
+      font-size: 16px;
       padding: 10px 20px;
       background-color: #29264e;
       color: #fff;
@@ -58,14 +60,14 @@
 
     .skill-container {
       display: flex;
-      justify-content: space-around;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .skill {
       flex: 1;
       margin: 10px;
-      padding: 20px;
+      padding: 15px;
       border-radius: 10px;
       background-color: #29264e;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -80,8 +82,8 @@
     }
 
     .skill img {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       margin-bottom: 10px;
     }
 
@@ -89,11 +91,7 @@
       color: #fff;
     }
 
-    .currency-container {
-      margin-top: 30px;
-    }
-
-    .save-load-container {
+    .currency-container, .save-load-container {
       margin-top: 20px;
     }
   </style>
@@ -102,7 +100,7 @@
   <div id="changelog-container">
     <h1>Change Log</h1>
     <p>Welcome to Skill Quest version 1.0.3!</p>
-    <p>Here are some of the exciting new features:</p>
+    <p>Exciting new features:</p>
     <ul>
       <li>Unlock new skills as you level up your "Shadow Strike" skill to level 100!</li>
       <li>Purchase the Auto-Train feature to automatically train your skills.</li>
